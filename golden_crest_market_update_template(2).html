@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daily Market Update - Golden Crest Fund</title>
+  <style>
+    :root {
+      --teal: #0aa39f;
+      --teal-dark: #007f7e;
+      --teal-soft: #c8fbfb;
+      --blue: #00589d;
+      --blue-mid: #4b78b0;
+      --grid: #ffffff;
+      --row-a: #dfe7f2;
+      --row-b: #cfd9e8;
+      --section-grey: #d8d8d8;
+      --text: #0b0b0b;
+    }
+
+    @page { size: A4 portrait; margin: 0; }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      margin: 0 auto;
+      padding: 5mm;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    .header {
+      height: 17mm;
+      background: var(--teal-soft);
+      border-bottom: 1.4mm solid var(--teal);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 3mm;
+      margin-bottom: 3mm;
+    }
+
+    .report-title {
+      font-size: 10.8pt;
+      font-weight: 700;
+      letter-spacing: -0.1px;
+      white-space: nowrap;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 2.5mm;
+      min-width: 50mm;
+      justify-content: flex-end;
+    }
+
+    .brand-mark {
+      width: 16mm;
+      height: 11mm;
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-left: 7mm solid transparent;
+      border-right: 7mm solid transparent;
+      border-bottom: 11mm solid #005996;
+    }
+
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      height: 0;
+      border-left: 7mm solid transparent;
+      border-right: 7mm solid transparent;
+      border-bottom: 11mm solid #25b5af;
+      transform: scaleX(0.72);
+      transform-origin: right bottom;
+    }
+
+    .brand-name {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 13.5pt;
+      line-height: 0.95;
+      text-transform: uppercase;
+      color: #042b3e;
+      white-space: pre-line;
+    }
+
+    .page-main {
+      height: 232mm;
+      overflow: hidden;
+    }
+
+    .page-1-grid {
+      display: grid;
+      grid-template-columns: 64mm 1fr;
+      gap: 3mm;
+      height: 100%;
+    }
+
+    .left-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25mm;
+      min-width: 0;
+    }
+
+    .right-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 7mm;
+      min-width: 0;
+    }
+
+    .section-title-grey,
+    .section-title-teal {
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      padding: 1.2mm 2mm;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+    }
+
+    .section-title-grey {
+      background: var(--section-grey);
+      color: var(--blue);
+      font-size: 6.8pt;
+    }
+
+    .section-title-teal {
+      background: var(--teal);
+      font-size: 8.2pt;
+    }
+
+    .table-block { width: 100%; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    th, td {
+      border: 0.4px solid var(--grid);
+      padding: 1mm 1.3mm;
+      vertical-align: middle;
+      overflow-wrap: anywhere;
+      word-break: normal;
+      hyphens: auto;
+    }
+
+    th {
+      background: var(--blue);
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .mini-table th,
+    .mini-table td {
+      font-size: 5.9pt;
+      line-height: 1.05;
+      padding: 0.65mm 1mm;
+    }
+
+    .mini-table tbody tr:nth-child(odd) td { background: var(--row-a); }
+    .mini-table tbody tr:nth-child(even) td { background: var(--row-b); }
+
+    .mini-table .label { width: 54%; font-weight: 600; }
+    .mini-table .value { width: 46%; text-align: right; font-weight: 600; }
+
+    .indices-table th,
+    .indices-table td { font-size: 5.4pt; line-height: 1.02; }
+    .indices-table .idx { width: 35%; font-weight: 700; }
+    .indices-table .chg { width: 15%; text-align: right; font-weight: 700; }
+
+    .two-col-mini th:nth-child(1), .two-col-mini td:nth-child(1) { width: 27%; }
+    .two-col-mini th:nth-child(2), .two-col-mini td:nth-child(2) { width: 23%; }
+    .two-col-mini th:nth-child(3), .two-col-mini td:nth-child(3) { width: 27%; }
+    .two-col-mini th:nth-child(4), .two-col-mini td:nth-child(4) { width: 23%; }
+
+    .right-panel {
+      width: 100%;
+      min-height: 49mm;
+    }
+
+    .highlights-body {
+      padding: 2mm 3mm 1mm 5mm;
+      font-size: 8.5pt;
+      line-height: 1.45;
+    }
+
+    .highlights-body ul {
+      margin: 0;
+      padding-left: 4mm;
+    }
+
+    .article-card {
+      min-height: 37mm;
+    }
+
+    .article-headline {
+      background: var(--teal);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 8.5pt;
+      padding: 1.7mm 2.6mm;
+      line-height: 1.1;
+      text-transform: uppercase;
+      overflow-wrap: anywhere;
+    }
+
+    .article-body {
+      padding: 2mm 2.6mm;
+      font-size: 8pt;
+      line-height: 1.35;
+      text-align: left;
+      overflow-wrap: anywhere;
+    }
+
+    .large-section-title {
+      background: var(--teal);
+      color: #ffffff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.2px;
+      font-size: 8.2pt;
+      padding: 1.7mm 2mm;
+      margin-bottom: 1.4mm;
+    }
+
+    .date-strip {
+      background: var(--blue);
+      color: #ffffff;
+      font-weight: 700;
+      text-align: center;
+      font-size: 7pt;
+      padding: 0.7mm 1mm;
+    }
+
+    .main-table th,
+    .main-table td {
+      font-size: 6.35pt;
+      line-height: 1.05;
+      padding: 0.8mm 1mm;
+      text-align: center;
+    }
+
+    .main-table tbody tr:nth-child(odd) td { background: var(--row-a); }
+    .main-table tbody tr:nth-child(even) td { background: var(--row-b); }
+
+    .main-table .left { text-align: left; }
+    .main-table .right { text-align: right; }
+    .main-table .no { width: 7mm; }
+    .main-table .ticker { width: 14mm; }
+    .main-table .security { width: 48mm; }
+    .main-table .price { width: 28mm; }
+    .main-table .small { width: 24mm; }
+
+    .ftse-table .security { width: 40mm; }
+    .ftse-table .industry { width: 40mm; }
+    .ftse-table .price { width: 24mm; }
+    .ftse-table .marketcap { width: 25mm; }
+
+    .note {
+      margin: 1.2mm 0 6mm 0.5mm;
+      font-size: 6.8pt;
+      font-weight: 700;
+    }
+
+    .footer {
+      position: absolute;
+      left: 5mm;
+      right: 5mm;
+      bottom: 5mm;
+      height: 29mm;
+      font-size: 5.6pt;
+      line-height: 1.28;
+      overflow: hidden;
+    }
+
+    .sources {
+      font-style: italic;
+      margin-bottom: 1.2mm;
+      border-bottom: 0.2mm solid #222;
+      padding-bottom: 0.7mm;
+    }
+
+    .disclaimer-label {
+      font-weight: 700;
+      margin-right: 1mm;
+    }
+
+    .muted { color: #333; }
+
+    @media print {
+      html, body { background: #ffffff; }
+      .page { margin: 0; box-shadow: none; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <!--
+    HOW TO USE IN YOUR NODE / AUTOMATION:
+    1) Replace only the JSON inside <script id="report-json" type="application/json"> ... </script>.
+    2) Keep the HTML/CSS/JS unchanged.
+    3) Open in browser or render with Puppeteer/Playwright, then Save as PDF.
+  -->
+
+  <script id="report-json" type="application/json">
+  {
+    "dateDisplay": "{{DATE_DISPLAY}}",
+    "reportTitle": "DAILY MARKET UPDATE",
+    "fundName": "Golden Crest Fund",
+    "brandName": "Northern\nCrest Capital",
+    "sourceLine": "Sources: Bloomberg, Research Reports, Media Coverage",
+    "disclaimer": "The information contained herein is for informational purposes only and is subject to risks. The information should not be construed as any form of advice relating to tax, legal, financial, business or any matter and all persons should seek to obtain independent advice for the same. The information should not be construed as an offer to sell or purchase securities. Any such transaction shall be subject to a contractual understanding, necessary documentation, applicable laws, approvals and regulations. Before committing to an investment, please seek advice from a financial or other professional adviser regarding suitability and read the relevant product offer documents including risk disclosures.",
+    "page1": {
+      "keyJciData": [
+        {"label": "JCI", "value": "{{JCI_CLOSE}}"},
+        {"label": "% Change", "value": "{{JCI_CHG_PCT}}"},
+        {"label": "YTD % Change", "value": "{{JCI_YTD_PCT}}"},
+        {"label": "Transaction Value (IDR tn)", "value": "{{TRADING_VALUE_TN}}"},
+        {"label": "Net Foreign", "value": "{{NET_FOREIGN_VALUE_TN}}"},
+        {"label": "Market P/E (x)", "value": "{{MARKET_PER}}"}
+      ],
+      "indonesiaIndices": [
+        {"indexA": "LQ45", "changeA": "{{LQ45_CHG_PCT}}", "indexB": "JII", "changeB": "{{JII_CHG_PCT}}"},
+        {"indexA": "IDX30", "changeA": "{{IDX30_CHG_PCT}}", "indexB": "ISSI", "changeB": "{{ISSI_CHG_PCT}}"},
+        {"indexA": "IDX80", "changeA": "{{IDX80_CHG_PCT}}", "indexB": "Sri-Kehati", "changeB": "{{SRI_KEHATI_CHG_PCT}}"}
+      ],
+      "globalIndices": [
+        {"index": "Dow Jones Industrial Average", "change": "{{DOW_CHG_PCT}}", "ytd": "{{DOW_YTD_PCT}}"},
+        {"index": "S&P 500 – USA", "change": "{{SP500_CHG_PCT}}", "ytd": "{{SP500_YTD_PCT}}"},
+        {"index": "Nasdaq Composite – USA", "change": "{{NASDAQ_CHG_PCT}}", "ytd": "{{NASDAQ_YTD_PCT}}"},
+        {"index": "Nikkei – Japan", "change": "{{NIKKEI_CHG_PCT}}", "ytd": "{{NIKKEI_YTD_PCT}}"},
+        {"index": "Hang Seng – HK", "change": "{{HANGSENG_CHG_PCT}}", "ytd": "{{HANGSENG_YTD_PCT}}"}
+      ],
+      "macroIndicators": [
+        {"label": "USD/IDR", "value": "{{USDIDR}}"},
+        {"label": "BI 7-DRRR", "value": "{{BI_RATE}}"},
+        {"label": "Inflation YoY %", "value": "{{INFLATION_YOY}}"},
+        {"label": "5-Yr Indo Gov Bond", "value": "{{INDO_5Y}}"},
+        {"label": "10-Yr Indo Gov Bond", "value": "{{INDO_10Y}}"},
+        {"label": "5-Yr US Gov Bond", "value": "{{US_5Y}}"},
+        {"label": "10-Yr US Gov Bond", "value": "{{US_10Y}}"}
+      ],
+      "commodities": [
+        {"commodity": "Brent Crude Oil (USD/bl)", "price": "{{BRENT_LAST}}", "chg": "{{BRENT_CHG_PCT}}", "ytd": "{{BRENT_YTD_PCT}}"},
+        {"commodity": "Gold (USD/oz)", "price": "{{GOLD_LAST}}", "chg": "{{GOLD_CHG_PCT}}", "ytd": "{{GOLD_YTD_PCT}}"},
+        {"commodity": "Nickel spot (USD/mt)", "price": "{{NICKEL_LAST}}", "chg": "{{NICKEL_CHG_PCT}}", "ytd": "{{NICKEL_YTD_PCT}}"},
+        {"commodity": "Copper spot (USD/mt)", "price": "{{COPPER_LAST}}", "chg": "{{COPPER_CHG_PCT}}", "ytd": "{{COPPER_YTD_PCT}}"},
+        {"commodity": "Tin spot (USD/mt)", "price": "{{TIN_LAST}}", "chg": "{{TIN_CHG_PCT}}", "ytd": "{{TIN_YTD_PCT}}"}
+      ],
+      "sectorIndices": [
+        {"sectorA": "IDXFINANCE", "changeA": "{{IDXFINANCE_CHG}}", "sectorB": "IDXTECHNO", "changeB": "{{IDXTECHNO_CHG}}"},
+        {"sectorA": "IDXBASIC", "changeA": "{{IDXBASIC_CHG}}", "sectorB": "IDXPROP", "changeB": "{{IDXPROP_CHG}}"},
+        {"sectorA": "IDXNONCYC", "changeA": "{{IDXNONCYC_CHG}}", "sectorB": "IDXHEALTH", "changeB": "{{IDXHEALTH_CHG}}"},
+        {"sectorA": "IDXENERGY", "changeA": "{{IDXENERGY_CHG}}", "sectorB": "IDXINDUST", "changeB": "{{IDXINDUST_CHG}}"},
+        {"sectorA": "IDXINFRA", "changeA": "{{IDXINFRA_CHG}}", "sectorB": "IDXTRANS", "changeB": "{{IDXTRANS_CHG}}"}
+      ],
+      "dailyHighlights": [
+        "{{HIGHLIGHT_1}}",
+        "{{HIGHLIGHT_2}}",
+        "{{HIGHLIGHT_3}}",
+        "{{HIGHLIGHT_4}}"
+      ],
+      "articles": [
+        {"headline": "{{PARA_1_HEADLINE}}", "body": "{{PARA_1_BODY}}"},
+        {"headline": "{{PARA_2_HEADLINE}}", "body": "{{PARA_2_BODY}}"}
+      ]
+    },
+    "page2": {
+      "msciDate": "{{MSCI_DATE}}",
+      "msciConstituents": [
+        {"no": 1, "securityName": "{{MSCI_1_NAME}}", "ticker": "{{MSCI_1_TICKER}}", "lastClosingPrice": "{{MSCI_1_PRICE}}", "dailyPct": "{{MSCI_1_DAILY_PCT}}", "ytdPct": "{{MSCI_1_YTD_PCT}}", "closingWeight": "{{MSCI_1_WEIGHT}}"}
+      ],
+      "ftseDate": "{{FTSE_DATE}}",
+      "ftseConstituents": [
+        {"no": 1, "ticker": "{{FTSE_1_TICKER}}", "securityName": "{{FTSE_1_NAME}}", "industry": "{{FTSE_1_INDUSTRY}}", "price": "{{FTSE_1_PRICE}}", "dailyPct": "{{FTSE_1_DAILY_PCT}}", "ytdPct": "{{FTSE_1_YTD_PCT}}", "marketCap": "{{FTSE_1_MARKET_CAP}}", "weighting": "{{FTSE_1_WEIGHT}}"}
+      ],
+      "ftseNote": "Note: Market cap and Weighting data is as of {{FTSE_WEIGHTING_DATE}}"
+    }
+  }
+  </script>
+
+  <section class="page page-one">
+    <header class="header">
+      <div class="report-title"><span data-text="dateDisplay"></span> | <span data-text="reportTitle"></span> | <span data-text="fundName"></span></div>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-name" data-text="brandName"></div>
+      </div>
+    </header>
+
+    <main class="page-main page-1-grid">
+      <aside class="left-stack">
+        <div class="table-block">
+          <div class="section-title-grey">Key JCI Data</div>
+          <table class="mini-table" id="key-jci-table"></table>
+        </div>
+
+        <div class="table-block">
+          <div class="section-title-grey">Indonesia Indices</div>
+          <table class="mini-table indices-table two-col-mini" id="indo-indices-table"></table>
+        </div>
+
+        <div class="table-block">
+          <div class="section-title-grey">Global Indices</div>
+          <table class="mini-table" id="global-indices-table"></table>
+        </div>
+
+        <div class="table-block">
+          <div class="section-title-grey">Macro Indicators</div>
+          <table class="mini-table" id="macro-table"></table>
+        </div>
+
+        <div class="table-block">
+          <div class="section-title-grey">Commodities</div>
+          <table class="mini-table" id="commodities-table"></table>
+        </div>
+
+        <div class="table-block">
+          <div class="section-title-grey">Sector Indices</div>
+          <table class="mini-table indices-table two-col-mini" id="sector-table"></table>
+        </div>
+      </aside>
+
+      <section class="right-stack">
+        <div class="right-panel">
+          <div class="section-title-teal">Daily Highlights</div>
+          <div class="highlights-body"><ul id="highlights-list"></ul></div>
+        </div>
+
+        <article class="article-card">
+          <div class="article-headline" data-text="page1.articles.0.headline"></div>
+          <div class="article-body" data-text="page1.articles.0.body"></div>
+        </article>
+
+        <article class="article-card">
+          <div class="article-headline" data-text="page1.articles.1.headline"></div>
+          <div class="article-body" data-text="page1.articles.1.body"></div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="sources" data-text="sourceLine"></div>
+      <div><span class="disclaimer-label">DISCLAIMER:</span><span data-text="disclaimer"></span></div>
+    </footer>
+  </section>
+
+  <section class="page page-two">
+    <header class="header">
+      <div class="report-title"><span data-text="dateDisplay"></span> | <span data-text="reportTitle"></span> | <span data-text="fundName"></span></div>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div class="brand-name" data-text="brandName"></div>
+      </div>
+    </header>
+
+    <main class="page-main">
+      <section>
+        <div class="large-section-title">MSCI Indonesia Constituents</div>
+        <div class="date-strip" data-text="page2.msciDate"></div>
+        <table class="main-table" id="msci-table"></table>
+        <div class="note">Note: Indonesia accounts for ~1% of MSCI Emerging Markets</div>
+      </section>
+
+      <section>
+        <div class="large-section-title">FTSE Indonesia Top 10 Constituents</div>
+        <div class="date-strip" data-text="page2.ftseDate"></div>
+        <table class="main-table ftse-table" id="ftse-table"></table>
+        <div class="note" data-text="page2.ftseNote"></div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="sources" data-text="sourceLine"></div>
+      <div><span class="disclaimer-label">DISCLAIMER:</span><span data-text="disclaimer"></span></div>
+    </footer>
+  </section>
+
+  <script>
+    function loadReportData() {
+      const raw = document.getElementById('report-json').textContent.trim();
+      try { return JSON.parse(raw); }
+      catch (err) {
+        console.error('Invalid JSON in #report-json', err);
+        return {};
+      }
+    }
+
+    const data = loadReportData();
+
+    function get(path, fallback = '—') {
+      return String(path).split('.').reduce((acc, key) => {
+        if (acc === undefined || acc === null) return undefined;
+        return acc[key];
+      }, data) ?? fallback;
+    }
+
+    function setTextByPath() {
+      document.querySelectorAll('[data-text]').forEach(el => {
+        el.textContent = get(el.getAttribute('data-text'));
+      });
+    }
+
+    function cell(text, className = '') {
+      const td = document.createElement('td');
+      td.textContent = text ?? '—';
+      if (className) td.className = className;
+      return td;
+    }
+
+    function headerCell(text, className = '') {
+      const th = document.createElement('th');
+      th.textContent = text;
+      if (className) th.className = className;
+      return th;
+    }
+
+    function renderSimpleKV(tableId, rows) {
+      const table = document.getElementById(tableId);
+      const tbody = document.createElement('tbody');
+      (rows || []).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.appendChild(cell(row.label, 'label'));
+        tr.appendChild(cell(row.value, 'value'));
+        tbody.appendChild(tr);
+      });
+      table.replaceChildren(tbody);
+    }
+
+    function renderTwoPairTable(tableId, headers, rows, keys) {
+      const table = document.getElementById(tableId);
+      const thead = document.createElement('thead');
+      const headRow = document.createElement('tr');
+      headers.forEach(h => headRow.appendChild(headerCell(h)));
+      thead.appendChild(headRow);
+      const tbody = document.createElement('tbody');
+      (rows || []).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.appendChild(cell(row[keys[0]], 'idx'));
+        tr.appendChild(cell(row[keys[1]], 'chg'));
+        tr.appendChild(cell(row[keys[2]], 'idx'));
+        tr.appendChild(cell(row[keys[3]], 'chg'));
+        tbody.appendChild(tr);
+      });
+      table.replaceChildren(thead, tbody);
+    }
+
+    function renderGlobalIndices() {
+      const table = document.getElementById('global-indices-table');
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      ['Index', '% Chg', '% YTD'].forEach(h => hr.appendChild(headerCell(h)));
+      thead.appendChild(hr);
+      const tbody = document.createElement('tbody');
+      (get('page1.globalIndices', []) || []).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.appendChild(cell(row.index, 'label'));
+        tr.appendChild(cell(row.change, 'value'));
+        tr.appendChild(cell(row.ytd, 'value'));
+        tbody.appendChild(tr);
+      });
+      table.replaceChildren(thead, tbody);
+    }
+
+    function renderCommodities() {
+      const table = document.getElementById('commodities-table');
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      ['Commodity', 'Price', '% Chg', '% YTD'].forEach(h => hr.appendChild(headerCell(h)));
+      thead.appendChild(hr);
+      const tbody = document.createElement('tbody');
+      (get('page1.commodities', []) || []).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.appendChild(cell(row.commodity, 'label'));
+        tr.appendChild(cell(row.price, 'value'));
+        tr.appendChild(cell(row.chg, 'value'));
+        tr.appendChild(cell(row.ytd, 'value'));
+        tbody.appendChild(tr);
+      });
+      table.replaceChildren(thead, tbody);
+    }
+
+    function renderHighlights() {
+      const list = document.getElementById('highlights-list');
+      const items = get('page1.dailyHighlights', []);
+      list.replaceChildren(...(items || []).filter(Boolean).map(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        return li;
+      }));
+    }
+
+    function renderMsciTable() {
+      const table = document.getElementById('msci-table');
+      const headers = ['No.', 'Security Name', 'Ticker', 'Last Closing Price', 'Daily %', 'YTD % Change', 'Closing Weight'];
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      headers.forEach((h, i) => hr.appendChild(headerCell(h, ['no','security','ticker','price','small','small','small'][i])));
+      thead.appendChild(hr);
+      const tbody = document.createElement('tbody');
+      (get('page2.msciConstituents', []) || []).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.appendChild(cell(row.no));
+        tr.appendChild(cell(row.securityName, 'left'));
+        tr.appendChild(cell(row.ticker));
+        tr.appendChild(cell(row.lastClosingPrice, 'right'));
+        tr.appendChild(cell(row.dailyPct));
+        tr.appendChild(cell(row.ytdPct));
+        tr.appendChild(cell(row.closingWeight));
+        tbody.appendChild(tr);
+      });
+      table.replaceChildren(thead, tbody);
+    }
+
+    function renderFtseTable() {
+      const table = document.getElementById('ftse-table');
+      const headers = ['No.', 'Ticker', 'Security Name', 'ICB Industry Breakdown', 'Price', 'Daily %', 'YTD %', 'Market Cap (USD mn)', 'Weighting'];
+      const thead = document.createElement('thead');
+      const hr = document.createElement('tr');
+      headers.forEach((h, i) => hr.appendChild(headerCell(h, ['no','ticker','security','industry','price','small','small','marketcap','small'][i])));
+      thead.appendChild(hr);
+      const tbody = document.createElement('tbody');
+      (get('page2.ftseConstituents', []) || []).forEach(row => {
+        const tr = document.createElement('tr');
+        tr.appendChild(cell(row.no));
+        tr.appendChild(cell(row.ticker));
+        tr.appendChild(cell(row.securityName, 'left'));
+        tr.appendChild(cell(row.industry, 'left'));
+        tr.appendChild(cell(row.price, 'right'));
+        tr.appendChild(cell(row.dailyPct));
+        tr.appendChild(cell(row.ytdPct));
+        tr.appendChild(cell(row.marketCap, 'right'));
+        tr.appendChild(cell(row.weighting));
+        tbody.appendChild(tr);
+      });
+      table.replaceChildren(thead, tbody);
+    }
+
+    function renderAll() {
+      setTextByPath();
+      renderSimpleKV('key-jci-table', get('page1.keyJciData', []));
+      renderTwoPairTable('indo-indices-table', ['Index', '% Chg', 'Index', '% Chg'], get('page1.indonesiaIndices', []), ['indexA','changeA','indexB','changeB']);
+      renderGlobalIndices();
+      renderSimpleKV('macro-table', get('page1.macroIndicators', []));
+      renderCommodities();
+      renderTwoPairTable('sector-table', ['Sector', '% Chg', 'Sector', '% Chg'], get('page1.sectorIndices', []), ['sectorA','changeA','sectorB','changeB']);
+      renderHighlights();
+      renderMsciTable();
+      renderFtseTable();
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>
